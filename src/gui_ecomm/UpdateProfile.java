@@ -19,6 +19,13 @@ public class UpdateProfile extends javax.swing.JFrame {
         
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/user_settings.png"));
         setIconImage(img.getImage());
+        
+        uname.setText("" + UserLogin.userName);
+        pwd.setText("" + UserLogin.passwd);
+        address.setText("" + UserLogin.addrs);
+        city.setText("" + UserLogin.cTy);
+        gmail.setText("" + UserLogin.gMail);
+        mobile.setText("" + UserLogin.mob);
     }
 
     @SuppressWarnings("unchecked")
@@ -260,26 +267,26 @@ public class UpdateProfile extends javax.swing.JFrame {
         else if(addr.length()==0)
         {
             JOptionPane.showMessageDialog(rootPane, "Enter your corrent address", "Warning", JOptionPane.WARNING_MESSAGE);
-            pwd.requestFocus();
+            address.requestFocus();
         }
         else if(cty.length()==0)
         {
             JOptionPane.showMessageDialog(rootPane, "Enter your city name", "Warning", JOptionPane.WARNING_MESSAGE);
-            pwd.requestFocus();
+            city.requestFocus();
         }
         else if(gMail.length()==0)
         {
             JOptionPane.showMessageDialog(rootPane, "Enter GMAIL", "Warning", JOptionPane.WARNING_MESSAGE);
-            pwd.requestFocus();
+            gmail.requestFocus();
         }
         else if(num.length()==0)
         {
             JOptionPane.showMessageDialog(rootPane, "Enter mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
-            pwd.requestFocus();
+            mobile.requestFocus();
         }
         try
         {
-            String userId = new UserLogin().uId;
+            String userId = UserLogin.uId;
             
             PreparedStatement ps1=con.prepareStatement("select gmail,mobile from ecomm_user where gmail=? or mobile=?");
             ps1.setString(1, gMail);

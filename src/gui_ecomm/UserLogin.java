@@ -14,7 +14,7 @@ public class UserLogin extends javax.swing.JFrame {
     static String pw;
     static String uId; 
     static String un;
-    static String userName, addrs, cTy, gMail, mob, dateOfRegister;
+    static String userName, passwd, addrs, cTy, gMail, mob, dateOfRegister;
     
     public UserLogin() {
         initComponents();
@@ -264,6 +264,7 @@ public class UserLogin extends javax.swing.JFrame {
                     new UserHome().setVisible(true);
                     uId = rs.getString("u_id");
                     userName = rs.getString("u_name");
+                    passwd = pw;
                     addrs = rs.getString("address");
                     cTy = rs.getString("city");
                     gMail = rs.getString("gmail");
