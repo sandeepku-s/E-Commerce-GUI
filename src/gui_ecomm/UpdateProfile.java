@@ -79,6 +79,7 @@ public class UpdateProfile extends javax.swing.JFrame {
 
         address.setColumns(20);
         address.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        address.setLineWrap(true);
         address.setRows(5);
         address.setToolTipText("eg. #321, xyz,.............");
         jScrollPane2.setViewportView(address);
@@ -287,49 +288,25 @@ public class UpdateProfile extends javax.swing.JFrame {
         try
         {
             String userId = UserLogin.uId;
-            
-            PreparedStatement ps1=con.prepareStatement("select gmail,mobile from ecomm_user where gmail=? or mobile=?");
-            ps1.setString(1, gMail);
-            ps1.setString(2, num);
-            ResultSet rs1=ps1.executeQuery();
-            
-            int row = 0;
-            rs1.next();
-            row = rs1.getRow();
-            
-            if(row == 0)
-            {
-                PreparedStatement ps = con.prepareStatement("update ecomm_user set u_name=?, password=md5(?), address=?, city=?, gmail=?, mobile=?, regon=now() where u_id=?");
-                ps.setString(1, un);
-                ps.setString(2, pw);
-                ps.setString(3, addr);
-                ps.setString(4, cty);
-                ps.setString(5, gMail);
-                ps.setString(6, num);
-                ps.setString(7, userId);
+            PreparedStatement ps = con.prepareStatement("update ecomm_user set u_name=?, password=md5(?), address=?, city=?, gmail=?, mobile=?, regon=now() where u_id=?");
+            ps.setString(1, un);
+            ps.setString(2, pw);
+            ps.setString(3, addr);
+            ps.setString(4, cty);
+            ps.setString(5, gMail);
+            ps.setString(6, num);
+            ps.setString(7, userId);
 
-                int i = ps.executeUpdate();
-                if(i == 1)
-                {
-                    err.setText("Account Updated Successfully. Password is " + pw);
-                    clr();
-                    check();
-                }
-                else
-                {
-                    err.setText("Account not Updated. please try again....");
-                }
+            int i = ps.executeUpdate();
+            if(i == 1)
+            {
+                err.setText("Account Updated Successfully. Password is " + pw);
+                clr();
+                check();
             }
             else
             {
-                if(rs1.getString("gmail").equals(gMail))
-                {
-                    err.setText("Email Exist!!!");
-                }
-                if(rs1.getString("mobile").equals(num))
-                {
-                    err.setText("Mobile number Exist!!!");
-                }
+                err.setText("Account not Updated. please try again....");
             }
         }
         catch(SQLException e)
