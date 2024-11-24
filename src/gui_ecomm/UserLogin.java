@@ -18,7 +18,7 @@ public class UserLogin extends javax.swing.JFrame {
     
     public UserLogin() {
         initComponents();
-        
+        uname.requestFocus();
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/login.jpg"));
         setIconImage(img.getImage());
     }

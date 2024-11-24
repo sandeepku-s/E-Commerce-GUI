@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class UserHome extends javax.swing.JFrame {
 
@@ -101,14 +102,24 @@ public class UserHome extends javax.swing.JFrame {
         searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search_icon1.png"))); // NOI18N
         searchButton.setBorder(null);
         searchButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        searchButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchButtonMouseClicked(evt);
+            }
+        });
+        searchButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchButtonKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(286, 286, 286)
-                .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(291, 291, 291)
+                .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -311,6 +322,33 @@ public class UserHome extends javax.swing.JFrame {
         profileWindow.setText("");
     }//GEN-LAST:event_profileMouseEntered
 
+    private void searchButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchButtonMouseClicked
+        searchProducts();
+    }//GEN-LAST:event_searchButtonMouseClicked
+
+    private void searchButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchButtonKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+        {
+            searchProducts();
+        }
+    }//GEN-LAST:event_searchButtonKeyPressed
+
+    static String pName;
+    private void searchProducts()
+    {
+        pName = searchBar.getText();
+        
+        if(pName.length() != 0)
+        {
+            new ViewProducts().setVisible(true);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Enter the Product name", "Information", JOptionPane.INFORMATION_MESSAGE);
+            searchBar.requestFocus();
+        }
+    }
+    
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

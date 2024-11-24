@@ -17,7 +17,7 @@ public class DeleteAccount extends javax.swing.JFrame {
     
     public DeleteAccount() {
         initComponents();
-        
+        uname.requestFocus();
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/delete.png"));
         setIconImage(img.getImage());
     }

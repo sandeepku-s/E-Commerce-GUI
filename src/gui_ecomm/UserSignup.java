@@ -14,7 +14,7 @@ public class UserSignup extends javax.swing.JFrame {
     
     public UserSignup() {
         initComponents();
-        
+        uname.requestFocus();
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/signup.jpg"));
         setIconImage(img.getImage());
     }

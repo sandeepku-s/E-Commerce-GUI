@@ -12,7 +12,7 @@ public class AdminLogin extends javax.swing.JFrame {
 
     public AdminLogin() {
         initComponents();
-        
+        uname.requestFocus();
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/login.jpg"));
         setIconImage(img.getImage());
     }
@@ -215,6 +215,7 @@ public class AdminLogin extends javax.swing.JFrame {
                 {
                     err.setText("ADMIN is not Found.......");
                     clr();
+                    
                 }
             }
             catch(SQLException e)
