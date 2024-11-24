@@ -94,6 +94,7 @@ public class UserSignup extends javax.swing.JFrame {
 
         address.setColumns(20);
         address.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        address.setLineWrap(true);
         address.setRows(5);
         address.setToolTipText("eg. #321, xyz,.............");
         jScrollPane2.setViewportView(address);
