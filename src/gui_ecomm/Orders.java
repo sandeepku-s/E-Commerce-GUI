@@ -21,6 +21,7 @@ public class Orders extends javax.swing.JFrame {
         jLabel1.setVisible(false);
         productDetails.setVisible(false);
         cancelButton.setVisible(false);
+        paymentButton.setVisible(false);
         
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/briefcase.png"));
         setIconImage(img.getImage());
@@ -40,11 +41,13 @@ public class Orders extends javax.swing.JFrame {
         productDetails = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
+        paymentButton = new javax.swing.JButton();
         err = new javax.swing.JLabel();
         backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Your cart and Orders");
+        setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 102));
 
@@ -119,6 +122,16 @@ public class Orders extends javax.swing.JFrame {
             }
         });
 
+        paymentButton.setBackground(new java.awt.Color(0, 255, 0));
+        paymentButton.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        paymentButton.setText("Payment");
+        paymentButton.setPreferredSize(new java.awt.Dimension(63, 32));
+        paymentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout productDetailsPanelLayout = new javax.swing.GroupLayout(productDetailsPanel);
         productDetailsPanel.setLayout(productDetailsPanelLayout);
         productDetailsPanelLayout.setHorizontalGroup(
@@ -131,6 +144,8 @@ public class Orders extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
@@ -142,7 +157,9 @@ public class Orders extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(productDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -217,7 +234,7 @@ public class Orders extends javax.swing.JFrame {
     {
         try
         {
-            PreparedStatement ps = con.prepareStatement("select order_id, product_id, quantity, total_price, order_date, payment_status, payment_date from ecomm_order where u_id=? and status='order_placed'");
+            PreparedStatement ps = con.prepareStatement("select order_id, product_id, quantity, total_price, order_date, status, payment_status, payment_date from ecomm_order where u_id=? and status!='cart'");
             ps.setString(1, UserLogin.uId);
             ResultSet rs = ps.executeQuery();
             
@@ -248,14 +265,24 @@ public class Orders extends javax.swing.JFrame {
         String qty=jTable1.getValueAt(i, 2).toString();
         String tot=jTable1.getValueAt(i, 3).toString();
         String ordDate=jTable1.getValueAt(i, 4).toString();
-        String pay=jTable1.getValueAt(i, 5).toString();
+        String divrSts=jTable1.getValueAt(i, 5).toString();
+        String pay=jTable1.getValueAt(i, 6).toString();
 
         productDetailsPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
 
-        productDetails.setText("\n   Order ID :- "+ ord + "\n   Product ID :- " + proId + "\n\n   Number of products " + qty + "\n   Total price = Rs." + tot + "\n\n   Order DATE :- " + ordDate + "\n   Payment status :- " + pay);
+        productDetails.setText("\n   Order ID :- "+ ord + "\n   Product ID :- " + proId + "\n\n   Number of products " + qty + "\n   Total price = Rs." + tot + "\n\n   Order DATE :- " + ordDate + "\n   Dilevery status :- " + divrSts + "\n   Payment status :- " + pay);
         jLabel1.setVisible(true);
         productDetails.setVisible(true);
-        cancelButton.setVisible(true);
+        if(divrSts.equalsIgnoreCase("order_placed") || divrSts.equalsIgnoreCase("delivered") || divrSts.equalsIgnoreCase("order_shipped"))
+        {
+            cancelButton.setVisible(true);
+            paymentButton.setVisible(true);
+        }
+        else
+        {
+            cancelButton.setVisible(false);
+            paymentButton.setVisible(false);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -278,6 +305,23 @@ public class Orders extends javax.swing.JFrame {
             System.out.println(e);
         }
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
+        try
+        {
+            PreparedStatement ps = con.prepareStatement("update ecomm_order set payment_status='paid' where order_id=?");
+            ps.setInt(1, ord);
+            int i = ps.executeUpdate();
+            if(i == 1)
+            {
+                err.setText("Payment Succussfully.........");
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_paymentButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,6 +372,7 @@ public class Orders extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton paymentButton;
     private javax.swing.JTextArea productDetails;
     private javax.swing.JPanel productDetailsPanel;
     // End of variables declaration//GEN-END:variables

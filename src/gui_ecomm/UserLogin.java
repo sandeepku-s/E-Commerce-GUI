@@ -9,12 +9,6 @@ import javax.swing.JOptionPane;
 import mypack.Db;
 
 public class UserLogin extends javax.swing.JFrame {
-
-    Connection con=Db.connect();
-    static String pw;
-    static String uId; 
-    static String un;
-    static String userName, passwd, addrs, cTy, gMail, mob, dateOfRegister;
     
     public UserLogin() {
         initComponents();
@@ -22,6 +16,12 @@ public class UserLogin extends javax.swing.JFrame {
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/login.jpg"));
         setIconImage(img.getImage());
     }
+    
+    Connection con=Db.connect();
+    static String pw;
+    static String uId; 
+    static String un;
+    static String userName, passwd, addrs, cTy, gMail, mob, dateOfRegister;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

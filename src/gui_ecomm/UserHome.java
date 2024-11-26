@@ -22,6 +22,8 @@ public class UserHome extends javax.swing.JFrame {
         
         ImageIcon img=new ImageIcon(getClass().getResource("/Images/Mart.png"));
         setIconImage(img.getImage());
+        paymentStatus.setVisible(false);
+        payment();
     }
 
     @SuppressWarnings("unchecked")
@@ -40,6 +42,7 @@ public class UserHome extends javax.swing.JFrame {
         orderButton = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        paymentStatus = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         account = new javax.swing.JMenu();
         account1 = new javax.swing.JMenu();
@@ -107,6 +110,7 @@ public class UserHome extends javax.swing.JFrame {
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/advertisement1.gif"))); // NOI18N
+        jLabel1.setToolTipText("Advertisement");
         jLabel1.setFocusable(false);
 
         searchBar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -120,6 +124,11 @@ public class UserHome extends javax.swing.JFrame {
         searchButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchButtonMouseClicked(evt);
+            }
+        });
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
             }
         });
         searchButton.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -160,13 +169,25 @@ public class UserHome extends javax.swing.JFrame {
         jTextArea1.setRequestFocusEnabled(false);
         jScrollPane2.setViewportView(jTextArea1);
 
+        paymentStatus.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        paymentStatus.setForeground(new java.awt.Color(255, 0, 0));
+        paymentStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        paymentStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/approval.png"))); // NOI18N
+        paymentStatus.setText("Your order is out of Delivery. Please confirm the payment status....");
+        paymentStatus.setToolTipText("");
+        paymentStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                paymentStatusMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(171, 171, 171)
                         .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -177,7 +198,7 @@ public class UserHome extends javax.swing.JFrame {
                                 .addComponent(profile, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(15, 15, 15))
                             .addComponent(profilePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
@@ -187,32 +208,39 @@ public class UserHome extends javax.swing.JFrame {
                         .addGap(56, 56, 56)
                         .addComponent(jLabel1)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(paymentStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(profile)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(profilePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(cartButton)
-                        .addGap(57, 57, 57)
-                        .addComponent(orderButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
+                        .addGap(9, 9, 9)
+                        .addComponent(profile)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(profilePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(cartButton)
+                                .addGap(57, 57, 57)
+                                .addComponent(orderButton)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paymentStatus)
+                .addGap(7, 7, 7))
         );
 
         jMenuBar1.setForeground(new java.awt.Color(204, 204, 255));
@@ -392,12 +420,14 @@ public class UserHome extends javax.swing.JFrame {
 
     private void searchButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchButtonMouseClicked
         searchProducts();
+        searchBar.setText("");
     }//GEN-LAST:event_searchButtonMouseClicked
 
     private void searchButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchButtonKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
         {
             searchProducts();
+            searchBar.setText("");
         }
     }//GEN-LAST:event_searchButtonKeyPressed
 
@@ -409,6 +439,44 @@ public class UserHome extends javax.swing.JFrame {
         new Orders().setVisible(true);
     }//GEN-LAST:event_orderButtonMouseClicked
 
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void paymentStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentStatusMouseClicked
+        new Orders().setVisible(true);
+    }//GEN-LAST:event_paymentStatusMouseClicked
+
+    private void payment()
+    {
+        Connection con = Db.connect();
+        String usrId = UserLogin.uId;
+        
+        try
+        {
+            PreparedStatement ps = con.prepareStatement("select * from ecomm_order where u_id=? and status='delivered'");
+            ps.setString(1, usrId);
+            ResultSet rs = ps.executeQuery();
+            
+            int row = 0;
+            rs.next();
+            row = rs.getRow();
+            
+            if(row == 1)
+            {
+                paymentStatus.setVisible(true);
+            }
+            else
+            {
+                System.out.println("hello");
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+        }
+    }
+    
     static String pName;
     private void searchProducts()
     {
@@ -472,6 +540,7 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel orderButton;
+    private javax.swing.JLabel paymentStatus;
     private javax.swing.JButton profile;
     private javax.swing.JPanel profilePanel;
     private javax.swing.JTextArea profileWindow;

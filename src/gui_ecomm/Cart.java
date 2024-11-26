@@ -45,6 +45,7 @@ public class Cart extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Your cart and Orders");
+        setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 102));
 
